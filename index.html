@@ -12,6 +12,7 @@
     <header>
       <h4>Now playing:</h4>
       <h2>String 57th & 9th</h2>
+      <p>Singer</p>
     </header>
 
     <!-- CD -->
@@ -40,7 +41,16 @@
       </div>
     </div>
 
-    <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+    <div class="volume">
+      <i class="fas fa-volume-up"></i>
+      <input id="controls_lever_range" class="volume-progress" type="range" value="100" step="1" min="0" max="100">
+    </div>
+    <div class="controls_time">
+      <span class="controls_time--left"></span>
+      <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
+      <span class="controls_time--right"></span>
+    </div>
+    
 
     <audio id="audio" src=""></audio>
   </div>
@@ -94,6 +104,7 @@
   const player = $('.player')
   const cd = $('.cd')
   const heading = $('header h2')
+  const header_singer = $('header p')
   const cdThumb = $('.cd-thumb')
   const audio = $('#audio')
   const playlist = $('.playlist')
@@ -101,6 +112,8 @@
   const playBtn = $('.btn-toggle-play') 
 
   const progress = $('#progress')
+
+  const volume_change = $('#controls_lever_range')
 
   const nextBtn = $('.btn-next')
   const preBtn = $('.btn-prev')
@@ -241,11 +254,42 @@
           cdThumbAnimate.pause() // Thumb dừng
         }
 
+        // xử lý âm thanh bài hát 
+        volume_change.oninput = function(e){
+          audio.volume = e.target.value/100;
+        }
+
         // Xử lý tiến độ bài hát thay đổi 
         audio.ontimeupdate = function() {
+          const time_start = $('.controls_time--left');
+          const time_count = $('.controls_time--right');
+
           if (audio.duration) {
             const progressPercent = Math.floor(audio.currentTime / audio.duration * 100)
             progress.value = progressPercent
+
+            // Xử lý tính thời gian của bài hát
+              // Time Start
+            var e = Math.floor(audio.currentTime) ; // thời gian hiện tại bài hát đang chạy
+                    var d = e%60; // số giây
+                    var b =  Math.floor(e/60); // số phút
+                    if(d < 10){
+                       var c = 0; // số chục giây
+                    }else{
+                        c = "";
+                    }
+                    time_start.textContent = '0' + b +  ":" + c + d;
+              // Time Count
+                    var ee = Math.floor( audio.duration) ; // Tổng số thời gian bài hát
+                    var dd = ee%60; //số giây
+                    var bb =  Math.floor(ee/60); //số phút
+                    if(dd < 10){
+                       var cc = 0; // số chục giây
+                    }else{
+                        cc = "";
+                    }
+
+                    time_count.textContent =  '0' + bb +  ":" + cc + dd;
           }
         }
 
@@ -326,6 +370,7 @@
       //Tải bài hát đang chạy
       loadCurrentSong: function() {
         heading.textContent = this.currentSong.name
+        header_singer.textContent = this.currentSong.singer
         cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`
         audio.src = this.currentSong.path
       },

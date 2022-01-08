@@ -38,7 +38,7 @@
   
   .dashboard {
     padding: 16px 16px 14px;
-    background-color: #fff;
+    background-color: #333;
     position: fixed;
     top: 0;
     width: 100%;
@@ -58,8 +58,13 @@
   }
   
   header h2 {
-    color: var(--text-color);
+    color: #fff;
     font-size: 20px;
+  }
+
+  header p {
+    font-size: 12px;
+    color: #999;
   }
   
   /* CD */
@@ -73,6 +78,7 @@
     width: 100%;
     padding-top: 100%;
     border-radius: 50%;
+    border: 1px solid var(--primary-color);
     background-color: #333;
     background-size: cover;
     margin: auto;
@@ -87,9 +93,10 @@
   }
   
   .control .btn {
-    color: #666;
+    color: #fff;
     padding: 18px;
     font-size: 18px;
+    cursor: pointer;
   }
   
   .control .btn.active {
@@ -107,7 +114,31 @@
     justify-content: center;
     background-color: var(--primary-color);
   }
+
+  .volume {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+  }
+
+  .volume .fa-volume-up {
+    color: var(--primary-color);
+    width: 66px;
+  }
+
+  .volume-progress {
+    cursor: pointer;
+  }
   
+  .controls_time {
+    display: flex;
+    align-items: center;
+  }
+  .controls_time--left, .controls_time--right {
+    color: #999;
+    padding: 0 12px;
+  }
+
   .progress {
     width: 100%;
     -webkit-appearance: none;
@@ -117,6 +148,7 @@
     opacity: 0.7;
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
+    cursor: pointer;
   }
   
   .progress::-webkit-slider-thumb {
@@ -130,7 +162,7 @@
   
   /* PLAYLIST */
   .playlist {
-    margin-top: 408px;
+    margin-top: 468px;
     padding: 12px;
   }
   
