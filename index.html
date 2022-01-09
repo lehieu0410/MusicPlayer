@@ -41,8 +41,12 @@
       </div>
     </div>
 
-    <div class="volume">
-      <i class="fas fa-volume-up"></i>
+    <div class="volume-container">
+      <div class="volume-btn">
+        <i class="fas fa-volume-up"></i>
+       <i class="fas fa-volume-mute"></i>
+      </div>
+      
       <input id="controls_lever_range" class="volume-progress" type="range" value="100" step="1" min="0" max="100">
     </div>
     <div class="controls_time">
@@ -113,6 +117,7 @@
 
   const progress = $('#progress')
 
+  const volumeBtn = $('.volume-btn')
   const volume_change = $('#controls_lever_range')
 
   const nextBtn = $('.btn-next')
@@ -127,6 +132,7 @@
     isPlaying : false,
     isRandom  : false,
     isRepeat  : false,
+    isMute  : false,
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
     songs: [
       {
@@ -328,8 +334,20 @@
           _this.isRandom = !_this.isRandom
           _this.setConfig('isRandom', _this.isRandom)
           randomBtn.classList.toggle('active', _this.isRandom)
-         
         }
+        // Mute & UnMute
+        volumeBtn.addEventListener("click", function(){
+          if(audio.muted) {
+            audio.muted = false;
+            volumeBtn.classList.remove('active', audio.muted)
+            volume_change.classList.remove('active', audio.muted)
+          } else {
+            audio.muted = true;
+            volumeBtn.classList.add('active', !audio.muted)
+            volume_change.classList.add('active', audio.muted)
+          }
+        }, false);
+        
 
         // Xử lý sang bài khác khi chạy xong
         audio.onended = function() {
